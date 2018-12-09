@@ -1,10 +1,10 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
-const getEXP = functions.https.onRequest( async (req, res) => {
-  const uid = req.query.uid
-  const value = req.query.value
-  const target = admin.firestore.collecion('users').doc(uid)
+const getEXP = functions.https.onCall( async (data, context) => {
+  const uid = data.uid
+  const value = data.value
+  const target = admin.firestore().collecion('users').doc(uid)
   try {
     const originValue = await target.get().data().Attribute
     originValue.EXP += value
@@ -16,10 +16,10 @@ const getEXP = functions.https.onRequest( async (req, res) => {
   }
 })
 
-const getHP = functions.https.onRequest( async (req, res) => {
-  const uid = req.query.uid
-  const value = req.query.value
-  const target = admin.firestore.collecion('users').doc(uid)
+const getHP = functions.https.onCall( async (data, context) => {
+  const uid = data.uid
+  const value = data.value
+  const target = admin.firestore().collecion('users').doc(uid)
   try {
     const originValue = await target.get().data().Attribute
     originValue.HP += value

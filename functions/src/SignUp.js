@@ -1,11 +1,12 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
-const signUpActivity = functions.https.onRequest( async (req, res) => {
-  const uid = req.query.uid
-  const aid = req.qeury.aid
+// for academic department
+const signUpActivity = functions.https.onCall( async (data, context) => {
+  const uid = data.uid
+  const aid = data.aid
   try {
-    const target = admin.firestore.collection('users').doc(uid)
+    const target = admin.firestore().collection('users').doc(uid)
     const originValue = await target.get().data().Activities
     originValue.push(aid)
     const result = await target.update({
@@ -16,11 +17,11 @@ const signUpActivity = functions.https.onRequest( async (req, res) => {
   } 
 })
 
-const cancelActivity = functions.https.onRequest( async (req, res) => {
-  const uid = req.query.uid
-  const aid = req.query.aid
+const cancelActivity = functions.https.onCall( async (data, context) => {
+  const uid = data.uid
+  const aid = data.aid
   try {
-    const target = admin.firestore.collection('users').doc(uid)
+    const target = admin.firestore().collection('users').doc(uid)
     const originValue = await target.get().data().Activities
     const index = originValue.indexOf(aid)
     if (index < 0) {

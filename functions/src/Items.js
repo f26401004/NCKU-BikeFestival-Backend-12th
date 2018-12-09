@@ -1,10 +1,10 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
-const getItem = functions.https.onRequest( async (req, res) => {
-  const uid = req.query.uid
-  const iid = req.query.iid
-  const target = admin.firestore.collection('users').doc(uid)
+const getItem = functions.https.onCall( async (data, context) => {
+  const uid = data.uid
+  const iid = data.iid
+  const target = admin.firestore().collection('users').doc(uid)
   try {
     const originValue = await target.get().data().Items
     if (originValue.iid) {
@@ -17,10 +17,10 @@ const getItem = functions.https.onRequest( async (req, res) => {
   }
 })
 
-const deleteItem = functions.https.onRequest( async (req, res) => {
-  const uid = req.query.uid
-  const iid = req.query.iid
-  const target = admin.firestore.collection('users').doc(uid)
+const deleteItem = functions.https.onCall( async (data, context) => {
+  const uid = data.uid
+  const iid = data.iid
+  const target = admin.firestore().collection('users').doc(uid)
   try {
     const originValue = await target.get().data().Items
     if (originValue.iid) {

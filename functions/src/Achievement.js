@@ -1,10 +1,10 @@
 const functions = require('firebase-functions')
 
 // Complete Mission API
-const complete = functions.https.onRequest( async (req, res) => {
-  const uid = req.query.uid
-  const mid = req.query.mid
-  const target = admin.firestore.collection('users').doc(uid)
+const completeMisson = functions.https.onCall( async (data, context) => {
+  const uid = data.uid
+  const mid = data.mid
+  const target = admin.firestore().collection('users').doc(uid)
   try {
     const originValue = await target.get().data().MissionComplete
     if (originValue.indexOf(mid) > 0) {
@@ -20,5 +20,5 @@ const complete = functions.https.onRequest( async (req, res) => {
 })
 
 module.exports = {
-  complete
+  completeMisson
 }
